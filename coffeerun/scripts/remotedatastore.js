@@ -24,12 +24,24 @@
     });
   };
 
-  RemoteDataStore.prototype.get = function(key, cb) {
+  var IDArray = [];
+  RemoteDataStore.prototype.get = function(key, cb){
+    $.get(this.serverUrl + '?emailAddress=' + key, function(serverResponse) {
+      console.log(serverResponse);
+      cb(serverResponse);
+      serverResponse.forEach(function(element) {
+        IDArray.push(element.id);
+        console.log('ID: ' + element.id);
+      });
+    });
+  };
+
+/*RemoteDataStore.prototype.get = function(key, cb) {
     $.get(this.serverUrl + '/' + key, function(serverResponse) {
       console.log(serverResponse);
       cb(serverResponse);
     });
-  };
+  };*/
 
   RemoteDataStore.prototype.remove = function(key) {
     $.ajax(this.serverUrl + '/' + key, {
